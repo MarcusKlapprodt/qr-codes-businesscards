@@ -2,7 +2,9 @@
 
 from reportlab.pdfgen.canvas import Canvas
 from reportlab.lib.units import mm
-from reportlab_qr_code import qr_draw
+# from reportlab_qr_code import qr_draw
+from reportlab_qrcode import QRCodeImage
+
 from modules.bcsexcel import fetch_excelfile, create_company_instance, create_address_instance, create_person_instance
 from modules.bcsclasses import Address, Company, Person, Card
 
@@ -68,7 +70,9 @@ def create_pdf_body(canvas, card):
         canvas.drawString(4*mm, 4*mm, f'mobile: {card.person.mobile}')
 
     ## Create the QR Code 
-    qr_draw(canvas, card.cardqrcode, x="55mm", y="23mm", size="30mm")
+    # qr_draw(canvas, card.cardqrcode, x="55mm", y="23mm", size="30mm")
+    qr = QRCodeImage(card.cardqrcode, size=30 * mm)
+    qr.drawOn(canvas, 55*mm, 23*mm, 0)
 
 
 def finalize_bc_pdf(excel_file):
